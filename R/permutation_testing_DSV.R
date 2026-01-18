@@ -138,15 +138,6 @@ permutation_testing_DSV <- function(X, Y, labels,
   q_MR <- matrix(qMR_vec, nrow = pX, ncol = nc)
   dimnames(q_MR) <- dimnames(absMR_obs)
   
-  # RtW entries (nc * pY tests)
-  R_RtW      <- vapply(RtW_grid, function(t) sum(RtW_vec >= t), numeric(1))
-  EV_RtW_bar <- EV_RtW / nperms
-  FDRhat_RtW <- EV_RtW_bar / pmax(R_RtW, 1)
-  qRtW_vec   <- q_from_curve(RtW_vec, RtW_grid, FDRhat_RtW)
-  
-  q_RtW <- matrix(qRtW_vec, nrow = nc, ncol = pY)
-  dimnames(q_RtW) <- dimnames(absRtW_obs)
-  
   # Output (keeps both p-values and Method-B q-values + curves for transparency) 
   list(
     omnibus = list(stat = T0_obs, pval = p0),
@@ -167,13 +158,6 @@ permutation_testing_DSV <- function(X, Y, labels,
       pval = p_MR,
       qB   = q_MR,
       fdr_curve = list(t = MR_grid, R = R_MR, EV = EV_MR_bar, FDRhat = FDRhat_MR)
-    ),
-    
-    RtW_entrywise = list(
-      stat = absRtW_obs,
-      pval = p_RtW,
-      qB   = q_RtW,
-      fdr_curve = list(t = RtW_grid, R = R_RtW, EV = EV_RtW_bar, FDRhat = FDRhat_RtW)
     )
   )
 }
