@@ -19,7 +19,7 @@ and learns a small set of orthogonal Aberrant Behavior Profiles (ABPs) -- linear
 
 > library(DSV)
 
-# Inputs
+# Inputs to DSV
 
 - `X` : n x pX matrix of severity scores / predictors (rows = subjects)
 
@@ -28,7 +28,7 @@ and learns a small set of orthogonal Aberrant Behavior Profiles (ABPs) -- linear
 - `labels` : length-n vector of two group labels (e.g., "ASD" and "TD")
 Used for within-group rank-standardization and for computing differential associations.
 
-- `verbal` : length-n vector (kept for interface consistency; may be used in extensions)
+- `verbal` : length-n vector
 
 - `nc` : number of retained components (dimensions) to extract
 
@@ -37,5 +37,74 @@ Used for within-group rank-standardization and for computing differential associ
 - `MR_ref` (optional) : reference loading matrix used for orthogonal Procrustes alignment
 (stabilizes sign/permutation ambiguity across refits, especially in permutation testing)
 
+# Run the Algorithm
 
+> n  <- 200 # synthetic data
 
+> pX <- 12
+
+> pY <- 58
+
+> X <- matrix(rnorm(n * pX), n, pX)
+
+> Y <- matrix(rnorm(n * pY), n, pY)
+
+> colnames(X) <- paste0("CASI_", seq_len(pX))
+
+> colnames(Y) <- paste0("ABC_",  seq_len(pY))
+
+> labels <- rep(c("ASD", "TD"), length.out = n) # two-group labels (e.g., ASD vs. TD)
+
+> pa <- parallel_analysis_perm(Y, labels, B = 200, alpha = 0.95) # parallel analysis
+
+> nc <- pa$k
+
+> nc
+
+> mod <- DSV(X, Y, labels, nc = nc) # run DSV algorithm
+
+> dim(mod$MR)       # pX x nc
+
+> dim(mod$RtW)      # nc x pY
+
+> dim(mod$optimal_components)  # n x nc
+
+> res <- permutation_testing_DSV(X, Y, labels, nperms = 1000, nc = nc) # permutation testing
+
+> res$factors$stat
+
+> res$factors$pval
+
+> res$factors$qB
+
+# Outputs
+
+DSV returns a list containing (most commonly used items first):
+
+- `MR` : pX x nc matrix
+Differential severity–component associations
+(Spearman correlation in group 1 minus Spearman correlation in group 2, after rank-standardization)
+
+- `RtW` : nc x pY matrix
+Rotated component–item weight map (ABP definitions).
+You can interpret each row as an item-weighted ABP.
+
+- `optimal_components` : n x nc matrix
+Subject-level rotated component scores.
+
+- `effects` : pX x pY matrix
+Implied differential effects from severity dimensions to items through the component map (MR %*% RtW).
+
+- `R` : nc x nc orthogonal varimax rotation
+
+- `Q` : nc x nc orthogonal Procrustes alignment (identity if MR_ref is NULL)
+
+- `eigen` : eigen-decomposition used for the PCA basis of Y
+
+- `X`, `Y` : rank-standardized versions used internally
+
+- `total_variance_Y` : trace of cov(Y) (used for variance accounting)
+
+- `loadings_unrot`, `loadings_rot` : pY x nc loading-style matrices before/after rotation
+
+- `Vaccounted_unrot`, `Vaccounted_rot` : variance accounting summaries
