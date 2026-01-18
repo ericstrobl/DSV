@@ -55,7 +55,7 @@ Used for within-group rank-standardization and for computing differential associ
 
 > labels <- rep(c("ASD", "TD"), length.out = n) # two-group labels (e.g., ASD vs. TD)
 
-> pa <- parallel_analysis_perm(Y, labels, B = 200, alpha = 0.95) # parallel analysis
+> pa <- parallel_analysis_DSV(Y, labels, B = 200, alpha = 0.95) # parallel analysis
 
 > nc <- pa$k
 
