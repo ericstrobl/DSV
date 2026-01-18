@@ -1,0 +1,11 @@
+Package: DSV
+Type: Package
+Title: Differentially Supervised Varimax
+Version: 0.1.0
+Author: Eric V. Strobl
+Maintainer: Eric V. Strobl <eric.strobl@pitt.edu>
+Description: DSV learns a small set of orthogonal latent profiles that maximize sparsity of differential associations.
+Depends: MASS
+License: CC BY-NC 4.0
+Encoding: UTF-8
+LazyData: true
