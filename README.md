@@ -61,7 +61,7 @@ Used for within-group rank-standardization and for computing differential associ
 
 > nc
 
-> mod <- DSV(X, Y, labels, nc = nc) # run DSV algorithm
+> mod <- DSV(X, Y, labels, nc = nc) # run DSV algorithm, assuming nc > 0
 
 > dim(mod$MR)       # pX x nc
 
