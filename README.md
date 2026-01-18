@@ -9,7 +9,7 @@ DSV takes:
 - `X`: specific / clinically interpretable severity dimensions (e.g., CASI-5 domain severities)
 - `Y`: non-specific observable behaviors (e.g., ABC items),
 
-and learns a small set of orthogonal Aberrant Behavior Profiles (ABPs) -- linear combinations of items in `Y` --- that maximize sparsity of the differential severity --- profile associations. Concretely, after within-group rank standardization, DSV forms the group-differential association matrix between `X` and `Y`, projects it onto a low-dimensional orthonormal basis of `Y`, and then applies a varimax rotation to concentrate differential signal onto minimally overlapping subsets of severity dimensions. This construction yields ABPs that remain interpretable at the item level while supporting principled hypothesis testing of group-differential associations.
+and learns a small set of orthogonal latent profiles -- linear combinations of items in `Y` --- that maximize sparsity of the differential severity--profile associations. Concretely, after within-group rank standardization, DSV forms the group-differential association matrix between `X` and `Y`, projects it onto a low-dimensional orthonormal basis of `Y`, and then applies a varimax rotation to concentrate differential signal onto minimally overlapping subsets of severity dimensions. This construction yields latent profiles that remain interpretable at the item level while supporting principled hypothesis testing of group-differential associations.
 
 # Installation
 
