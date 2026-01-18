@@ -108,3 +108,12 @@ Implied differential effects from severity dimensions to items through the compo
 - `loadings_unrot`, `loadings_rot` : pY x nc loading-style matrices before/after rotation
 
 - `Vaccounted_unrot`, `Vaccounted_rot` : variance accounting summaries
+
+
+permutation_testing_DSV returns a list containing:
+
+- `omnibus` : global statistic and p-value across all MR entries
+
+- `factors` : component-wise stats, permutation p-values, maxT FWER p-values, and FDR q-values
+
+- `MR_entrywise` : entrywise |MR| stats, permutation p-values, FDR q-values, and FDR curve
